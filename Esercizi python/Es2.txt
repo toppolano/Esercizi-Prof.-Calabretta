@@ -1,0 +1,7 @@
+Analizza i seguenti nomi di variabili. Quali di questi genererebbero un errore se usati in
+Python? Prova a spiegare il perché mentalmente, poi verifica la soluzione.
+1. user_id ok
+2. 2nd_player not ok perché non inizia ne con carattere ne con _
+3. total-sum not ok "sum" è una parola chiave
+4. _private_key ok
+5. class not ok "class" è una parola chiave
