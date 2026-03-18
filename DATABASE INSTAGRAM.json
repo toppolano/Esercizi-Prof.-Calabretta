@@ -1,0 +1,78 @@
+DATABASE INSTAGRAM
+CREATE (:Persona {nome: "Anna"})
+CREATE (:Persona {nome: "Luca"})
+CREATE (:Persona {nome: "Marco"})
+CREATE (:Persona {nome: "Giulia"})
+CREATE (:Persona {nome: "Elena"})
+
+
+CREARE LEGAMI
+"ANNA SEGUE LUCA E MARCO"
+MATCH (anna:Persona {nome: "Anna"})
+MATCH (luca:Persona {nome: "Luca"})
+MATCH (marco:Persona {nome: "Marco"})
+MERGE (anna)-[:SEGUE]->(luca)
+MERGE (anna)-[:SEGUE]->(marco)
+
+"MARCO SEGUE ANNA"
+MATCH (anna:Persona {nome: "Anna"})
+MATCH (marco:Persona {nome: "Marco"})
+MERGE (marco)-[:SEGUE]->(anna)
+
+"GIULIA SEGUE TUTTI"
+MATCH (anna:Persona {nome: "Anna"})
+MATCH (luca:Persona {nome: "Luca"})
+MATCH (marco:Persona {nome: "Marco"})
+MATCH (giulia:Persona {nome: "Giulia"})
+MATCH (elena:Persona {nome: "Elena"})
+MERGE (giulia)-[:SEGUE]->(anna)
+MERGE (giulia)-[:SEGUE]->(luca)
+MERGE (giulia)-[:SEGUE]->(marco)
+MERGE (giulia)-[:SEGUE]->(elena)
+
+"MOSTRARE MATCH Tutti gli utenti con il numero di follower maggiore di 1"
+MATCH (follower:Persona)-[:SEGUE]->(utente:Persona)
+WITH utente, count(follower) AS numero_follower
+WHERE numero_follower > 1
+RETURN utente.nome AS Utente
+
+"MOSTRARE CHI NON SEGUE NESSUNO"
+MATCH (p:Persona)
+WHERE NOT (p)-[:SEGUE]->()
+RETURN p
+
+
+DATABASE FACEBOOK
+CREATE (:Persona {nome: "Alice"})
+CREATE (:Persona {nome: "Bob"})
+CREATE (:Persona {nome: "Carol"})
+CREATE (:Persona {nome: "Dan"})
+
+"Alice ↔ Bob"
+MATCH (alice:Persona {nome: "Alice"})
+MATCH (bob:Persona {nome: "Bob"})
+MERGE (alice)-[:AMICO]->(bob)
+MERGE (bob)-[:AMICO]->(alice)
+
+"Alice ↔ Carol"
+MATCH (alice:Persona {nome: "Alice"})
+MATCH (carol:Persona {nome: "Carol"})
+MERGE (carol)-[:AMICO]->(alice)
+MERGE (alice)-[:AMICO]->(carol)
+
+"Bob ↔ Dan"
+MATCH (bob:Persona {nome: "Bob"})
+MATCH (dan:Persona {nome: "Dan"})
+MERGE (bob)-[:AMICO]->(dan)
+MERGE (dan)-[:AMICO]->(bob)
+
+"Scrivi una query che restituisca tutte le coppie di amici, mostrando ogni relazione una sola volta."
+MATCH (p1:Persona)-[:AMICO]->(p2:Persona)
+WHERE p1.nome < p2.nome
+RETURN p1.nome AS Amico1, p2.nome AS Amico2
+
+"Esempio query profonda"
+MATCH percorso = (p1:Persona)-[:AMICO*2]-(p2:Persona)
+WHERE p1.nome < p2.nome 
+  AND NOT (p1)-[:AMICO]-(p2)
+RETURN percorso
