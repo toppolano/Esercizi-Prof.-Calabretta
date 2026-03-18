@@ -40,7 +40,7 @@ MATCH (p:Persona)
 WHERE NOT (p)-[:SEGUE]->()
 RETURN p
 
-
+-------------------------------------------------------------------------------------------------------------------------------------------
 *DATABASE FACEBOOK*
 CREATE (:Persona {nome: "Alice"})
 CREATE (:Persona {nome: "Bob"})
