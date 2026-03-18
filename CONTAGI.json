@@ -1,0 +1,29 @@
+*CONTAGI*
+CREATE
+  (mario:Persona {nome: "Mario", ruolo: "paziente zero"}),
+  (luca:Persona {nome: "Luca", ruolo: "impiegato"}),
+  (sara:Persona {nome: "Sara", ruolo: "impiegato"}),
+  (anna:Persona {nome: "Anna", ruolo: "manager"}),
+  (paolo:Persona {nome: "Paolo", ruolo: "impiegato"}),
+  (giulia:Persona {nome: "Giulia", ruolo: "manager"}),
+  (marco:Persona {nome: "Marco", ruolo: "esterno"}),
+
+  (mario)-[:HA_CONTAGIATO]->(luca),
+  (mario)-[:HA_CONTAGIATO]->(sara),
+  (luca)-[:HA_CONTAGIATO]->(anna),
+  (sara)-[:HA_CONTAGIATO]->(paolo),
+  (anna)-[:HA_CONTAGIATO]->(giulia),
+  (paolo)-[:HA_CONTAGIATO]->(marco)
+
+"Trova le persone contagiate direttamente da Mario."
+MATCH (mario:Persona {nome: "Mario"})-[r:HA_CONTAGIATO]->(contagiato:Persona)
+RETURN mario, r, contagiato
+
+"Trova tutte le persone raggiunte dal contagio entro da Mario."
+MATCH (mario:Persona {nome: "Mario"})-[r:HA_CONTAGIATO*1]->(contagiato:Persona)
+RETURN mario, r, contagiato
+
+"Trova tutte le persone raggiunte dal contagio entro da Mario, escludendo Mario stesso dal risultato."
+MATCH (mario:Persona {nome: "Mario"})
+MATCH percorso = (mario)-[:HA_CONTAGIATO*1..]->(raggiunto:Persona)
+RETURN raggiunto
