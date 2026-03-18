@@ -1,4 +1,4 @@
-DATABASE INSTAGRAM
+*DATABASE INSTAGRAM*
 CREATE (:Persona {nome: "Anna"})
 CREATE (:Persona {nome: "Luca"})
 CREATE (:Persona {nome: "Marco"})
@@ -6,7 +6,6 @@ CREATE (:Persona {nome: "Giulia"})
 CREATE (:Persona {nome: "Elena"})
 
 
-CREARE LEGAMI
 "ANNA SEGUE LUCA E MARCO"
 MATCH (anna:Persona {nome: "Anna"})
 MATCH (luca:Persona {nome: "Luca"})
@@ -42,7 +41,7 @@ WHERE NOT (p)-[:SEGUE]->()
 RETURN p
 
 
-DATABASE FACEBOOK
+*DATABASE FACEBOOK*
 CREATE (:Persona {nome: "Alice"})
 CREATE (:Persona {nome: "Bob"})
 CREATE (:Persona {nome: "Carol"})
